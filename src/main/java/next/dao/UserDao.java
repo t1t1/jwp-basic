@@ -8,40 +8,37 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import core.jdbc.ConnectionManager;
-import core.jdbc.InsertjdbcTemplate;
-import core.jdbc.UpdatejdbcTemplate;
 import next.model.User;
+import core.jdbc.ConnectionManager;
+import core.jdbc.JdbcTemplate;
 
 public class UserDao {
 	
 	public void insert(User user) throws SQLException {
-		InsertjdbcTemplate insertjdbcTemplate = new InsertjdbcTemplate() {
-			
+		JdbcTemplate jdbcTemplate = new JdbcTemplate() {
 			@Override
-			public void setValueForInsert(User user, PreparedStatement pstmt)
+			public void setValue(User user, PreparedStatement pstmt)
 					throws SQLException {
 				pstmt.setString(1, user.getUserId());
 				pstmt.setString(2, user.getPassword());
 				pstmt.setString(3, user.getName());
 				pstmt.setString(4, user.getEmail());
-				
 			}
 			
 			@Override
-			public String createQueryForInsert() {
+			public String createQuery() {
 				String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
 				return sql;
 			}
 		};
-		insertjdbcTemplate.insert(user, this);
+		jdbcTemplate.update(user);
 	}
 	
 	public void update(User user) throws SQLException {
-		UpdatejdbcTemplate updatejdbcTemplate = new UpdatejdbcTemplate() {
+		JdbcTemplate jdbcTemplate = new JdbcTemplate() {
 			
 			@Override
-			public void setValueForUpdate(User user, PreparedStatement pstmt)
+			public void setValue(User user, PreparedStatement pstmt)
 					throws SQLException {
 				pstmt.setString(1, user.getPassword());
 				pstmt.setString(2, user.getName());
@@ -50,7 +47,7 @@ public class UserDao {
 			}
 			
 			@Override
-			public String createQueryForUpdate() {
+			public String createQuery() {
 				String sql = "UPDATE USERS"
 						+ " SET"
 						+ " password = ?"
@@ -60,7 +57,7 @@ public class UserDao {
 				return sql;
 			}
 		};
-		updatejdbcTemplate.update(user, this);
+		jdbcTemplate.update(user);
 	}
 	
 	public List<User> findAll() throws SQLException {
