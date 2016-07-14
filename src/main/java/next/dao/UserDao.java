@@ -9,15 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import core.jdbc.ConnectionManager;
+import core.jdbc.InsertjdbcTemplate;
+import core.jdbc.UpdatejdbcTemplate;
 import next.model.User;
 
 public class UserDao {
+	
 	public void insert(User user) throws SQLException {
-		CommonDB commonDB = new CommonDB();
-		commonDB.insert(user, this);
+		InsertjdbcTemplate insertjdbcTemplate = new InsertjdbcTemplate();
+		insertjdbcTemplate.insert(user, this);
 	}
 
-	public void setValueQuery(User user, PreparedStatement pstmt)
+	public void setValueForInsert(User user, PreparedStatement pstmt)
 			throws SQLException {
 		pstmt.setString(1, user.getUserId());
 		pstmt.setString(2, user.getPassword());
@@ -25,17 +28,17 @@ public class UserDao {
 		pstmt.setString(4, user.getEmail());
 	}
 
-	public String createInsertQuery() {
+	public String createQueryForInsert() {
 		String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
 		return sql;
 	}
 	
 	public void update(User user) throws SQLException {
-		CommonDB commonDB = new CommonDB();
-		commonDB.update(user, this);
+		UpdatejdbcTemplate updatejdbcTemplate = new UpdatejdbcTemplate();
+		updatejdbcTemplate.update(user, this);
 	}
 
-	public void setValueUpdateQuery(User user, PreparedStatement pstmt)
+	public void setValueForUpdate(User user, PreparedStatement pstmt)
 			throws SQLException {
 		pstmt.setString(1, user.getPassword());
 		pstmt.setString(2, user.getName());
@@ -43,7 +46,7 @@ public class UserDao {
 		pstmt.setString(4, user.getUserId());
 	}
 
-	public String createUpdateQuery() {
+	public String createQueryForUpdate() {
 		String sql = "UPDATE USERS"
 				+ " SET"
 				+ " password = ?"
