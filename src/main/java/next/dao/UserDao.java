@@ -17,7 +17,8 @@ public class UserDao {
 	public void insert(User user) throws SQLException {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate() {
 			@Override
-			public void setValue(User user, PreparedStatement pstmt)
+//			public void setValue(User user, PreparedStatement pstmt)
+			public void setValue(PreparedStatement pstmt)
 					throws SQLException {
 				pstmt.setString(1, user.getUserId());
 				pstmt.setString(2, user.getPassword());
@@ -31,14 +32,15 @@ public class UserDao {
 				return sql;
 			}
 		};
-		jdbcTemplate.update(user);
+		jdbcTemplate.update();
 	}
 	
 	public void update(User user) throws SQLException {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate() {
 			
 			@Override
-			public void setValue(User user, PreparedStatement pstmt)
+//			public void setValue(User user, PreparedStatement pstmt)
+			public void setValue(PreparedStatement pstmt)
 					throws SQLException {
 				pstmt.setString(1, user.getPassword());
 				pstmt.setString(2, user.getName());
@@ -57,7 +59,7 @@ public class UserDao {
 				return sql;
 			}
 		};
-		jdbcTemplate.update(user);
+		jdbcTemplate.update();
 	}
 	
 	public List<User> findAll() throws SQLException {
