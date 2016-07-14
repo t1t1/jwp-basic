@@ -38,26 +38,29 @@ public class UserDao {
 	}
 	
 	public void update(User user) throws SQLException {
-		UpdatejdbcTemplate updatejdbcTemplate = new UpdatejdbcTemplate();
+		UpdatejdbcTemplate updatejdbcTemplate = new UpdatejdbcTemplate() {
+			
+			@Override
+			public void setValueForUpdate(User user, PreparedStatement pstmt)
+					throws SQLException {
+				pstmt.setString(1, user.getPassword());
+				pstmt.setString(2, user.getName());
+				pstmt.setString(3, user.getEmail());
+				pstmt.setString(4, user.getUserId());
+			}
+			
+			@Override
+			public String createQueryForUpdate() {
+				String sql = "UPDATE USERS"
+						+ " SET"
+						+ " password = ?"
+						+ ", name = ?"
+						+ ", email = ?"
+						+ " WHERE userid = ?";
+				return sql;
+			}
+		};
 		updatejdbcTemplate.update(user, this);
-	}
-
-	public void setValueForUpdate(User user, PreparedStatement pstmt)
-			throws SQLException {
-		pstmt.setString(1, user.getPassword());
-		pstmt.setString(2, user.getName());
-		pstmt.setString(3, user.getEmail());
-		pstmt.setString(4, user.getUserId());
-	}
-
-	public String createQueryForUpdate() {
-		String sql = "UPDATE USERS"
-				+ " SET"
-				+ " password = ?"
-				+ ", name = ?"
-				+ ", email = ?"
-				+ " WHERE userid = ?";
-		return sql;
 	}
 	
 	public List<User> findAll() throws SQLException {
