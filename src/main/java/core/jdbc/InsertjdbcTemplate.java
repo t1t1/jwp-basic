@@ -7,16 +7,18 @@ import java.sql.SQLException;
 import next.dao.UserDao;
 import next.model.User;
 
-public class InsertjdbcTemplate {
+public abstract class InsertjdbcTemplate {
 	
 	public void insert(User user, UserDao userDao) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try {
 			con = ConnectionManager.getConnection();
-			String sql = userDao.createQueryForInsert();
+//			String sql = userDao.createQueryForInsert();
+			String sql = this.createQueryForInsert();
 			pstmt = con.prepareStatement(sql);
-			userDao.setValueForInsert(user, pstmt);
+//			userDao.setValueForInsert(user, pstmt);
+			this.setValueForInsert(user, pstmt);
 
 			pstmt.executeUpdate();
 		} finally {
@@ -29,5 +31,9 @@ public class InsertjdbcTemplate {
 			}
 		}
 	}
+	
+	public abstract void setValueForInsert(User user, PreparedStatement pstmt) throws SQLException;
+
+	public abstract String createQueryForInsert();
 	
 }
