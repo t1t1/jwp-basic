@@ -52,24 +52,17 @@ public class UserDao {
 		jdbcTemplate.update(sql);
 	}
 	
-	public List<User> findAll() throws SQLException {
-		List<User> users = new ArrayList<>();
+	public List<Object> findAll() throws SQLException {
+		List<Object> users = null;
 		Connection con = null;
 		Statement stmt = null;
 		ResultSet rs = null;
 		try {
 			con = ConnectionManager.getConnection();
-			String sql = "SELECT * FROM USERS";
+			String sql = setSql();
 			stmt = con.createStatement();
 			rs = stmt.executeQuery(sql);
-			while (rs.next()) {
-				String userId = rs.getString("userid");
-				String password = rs.getString("password");
-				String name = rs.getString("name");
-				String email = rs.getString("email");
-				User user = new User(userId, password, name, email);
-				users.add(user);
-			}
+			users = (List<Object>)getList(rs);
 			
 		} finally {
 			if (stmt != null) {
@@ -81,6 +74,24 @@ public class UserDao {
 			}
 		}
 		return users;
+	}
+
+	private List<Object> getList(ResultSet rs) throws SQLException {
+		List<Object> list = new ArrayList<>();
+		while (rs.next()) {
+			String userId = rs.getString("userid");
+			String password = rs.getString("password");
+			String name = rs.getString("name");
+			String email = rs.getString("email");
+			User user = new User(userId, password, name, email);
+			list.add(user);
+		}
+		return list;
+	}
+
+	private String setSql() {
+		String sql = "SELECT * FROM USERS";
+		return sql;
 	}
 
 	public User findByUserId(String userId) throws SQLException {
