@@ -10,12 +10,15 @@ import core.mvc.Controller;
 import next.controller.UserSessionUtils;
 import next.dao.UserDao;
 import next.model.User;
+import next.view.JsonView;
+import next.view.JspView;
+import next.view.View;
 
 public class UpdateUserController implements Controller {
     private static final Logger log = LoggerFactory.getLogger(UpdateUserController.class);
 
 	@Override
-	public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+	public View execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		UserDao userDao = new UserDao();
 		User user = userDao.findByUserId(req.getParameter("userId"));
 		if (!UserSessionUtils.isSameUser(req.getSession(), user)) {
@@ -29,6 +32,6 @@ public class UpdateUserController implements Controller {
 				req.getParameter("email"));
 		log.debug("Update User : {}", updateUser);
 		user.update(updateUser);
-		return "redirect:/";
+		return new JspView("redirect:/");
 	}
 }

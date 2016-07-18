@@ -3,6 +3,9 @@ package core.mvc;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import next.view.JspView;
+import next.view.View;
+
 public class ForwardController implements Controller {
 	private String forwardUrl;
 
@@ -14,7 +17,7 @@ public class ForwardController implements Controller {
 	}
 
 	@Override
-	public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
-		return forwardUrl;
+	public View execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+		return new JspView(forwardUrl);
 	}
 }
