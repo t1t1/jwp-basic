@@ -36,6 +36,8 @@ public class RequestMapping {
 		mappings.put("/qna/form", new ForwardController("/qna/form.jsp"));
 		mappings.put("/qna/show", new ShowController());
 		mappings.put("/qna/create", new CreateQnaController());
+		mappings.put("/qna/delete", new DeleteQnaController());
+//		mappings.put("/api/qna/delete", new ApiDeleteQnaController());
 		mappings.put("/api/qna/addAnswer", new AddAnswerController());
 		mappings.put("/api/qna/updateAnswer", new ForwardController("/qna/answer.jsp"));
 //		mappings.put("/api/qna/updateAnswer", new UpdateAnswerController());
