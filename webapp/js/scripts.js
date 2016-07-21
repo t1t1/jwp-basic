@@ -1,5 +1,6 @@
 // $(".qna-comment").on("click", ".answerWrite input[type=submit]", addAnswer);
 $(".answerWrite input[type=submit]").click(addAnswer);
+$('.article-util .link-modify-article').click(updateAnswer);
 
 function addAnswer(e) {
   e.preventDefault();
@@ -14,6 +15,20 @@ function addAnswer(e) {
     error: onError,
     success : onSuccess,
   });
+}
+
+function updateAnswer(e) {
+//	e.preventDefault();
+//	var queryString = $("form[name=answer]").serialize();
+//	
+//	$.ajax({
+//		type : 'post',
+//		url : '/api/qna/addAnswer',
+//		data : queryString,
+//		dataType : 'json',
+//		error: onError,
+//		success : onSuccess,
+//	});
 }
 
 function onSuccess(json, status){
