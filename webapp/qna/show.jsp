@@ -55,6 +55,36 @@
 					<div class="qna-comment-slipp">
 						<p class="qna-comment-count"><strong>${question.countOfComment}</strong>개의 의견</p>
 						<div class="qna-comment-slipp-articles">
+							<c:forEach var="answer" items="${answers}">
+								<article class="article">
+									<div class="article-header">
+										<div class="article-header-thumb">
+											<img src="https://graph.facebook.com/v2.3/1324855987/picture" class="article-author-thumb" alt="">
+										</div>
+										<div class="article-header-text">
+											${answer.writer}
+											<div class="article-header-time">${answer.createdDate}</div>
+										</div>
+									</div>
+									<div class="article-doc comment-doc">
+										<p>${answer.contents}</p>
+									</div>
+									<div class="article-util">
+										<ul class="article-util-list">
+											<li>
+												<a class="link-modify-article" href="/api/qna/updateAnswer?answerId=${answer.questionId}">수정</a>
+											</li>
+											<li>
+												<form class="form-delete" action="/api/qna/deleteAnswer" method="POST">
+													<input type="hidden" name="answerId" value="${answer.questionId}">
+													<button type="submit" class="link-delete-article">삭제</button>
+												</form>
+											</li>
+										</ul>
+									</div>
+								</article>							
+							</c:forEach>
+<!-- 							
 							<article class="article">
 								<div class="article-header">
 									<div class="article-header-thumb">
@@ -82,6 +112,7 @@
 									</ul>
 								</div>
 							</article>
+							
 							<article class="article">
 								<div class="article-header">
 									<div class="article-header-thumb">
@@ -109,6 +140,7 @@
 									</ul>
 								</div>
 							</article>
+ -->							
 							<div class="answerWrite">
                             <form name="answer" method="post">
 								<input type="hidden" name="questionId" value="${question.questionId}">
@@ -129,6 +161,36 @@
 		</div>
 	</div>
 </div>
+
+<script type="text/template" id="answerTemplate">
+<article class="article">
+	<div class="article-header">
+		<div class="article-header-thumb">
+			<img src="https://graph.facebook.com/v2.3/1324855987/picture" class="article-author-thumb" alt="">
+		</div>
+		<div class="article-header-text">
+			{{writer}}
+			<div class="article-header-time">{{createdDate}}</div>
+		</div>
+	</div>
+	<div class="article-doc comment-doc">
+		<p>{{contents}}</p>
+	</div>
+	<div class="article-util">
+		<ul class="article-util-list">
+			<li>
+				<a class="link-modify-article" href="/api/qna/updateAnswer?answerId={{questionId}}">수정</a>
+			</li>
+			<li>
+				<form class="form-delete" action="/api/qna/deleteAnswer" method="POST">
+					<input type="hidden" name="answerId" value="{{questionId}}">
+					<button type="submit" class="link-delete-article">삭제</button>
+				</form>
+			</li>
+		</ul>
+	</div>
+</article>
+</script>
 
 <script type="text/template" id="answerTemplate">
 	<article class="article">
