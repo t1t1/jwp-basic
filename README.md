@@ -42,4 +42,5 @@ ContextLoaderListener.java
 
 #### 7. next.web.qna package의 ShowController는 멀티 쓰레드 상황에서 문제가 발생하는 이유에 대해 설명하라.
 
-* 
+* 현재 컨트롤러는 1개의 인스턴스만 만들어져서 사용되고 있음.
+* 서로 다른 요청으로 생긴 서로 다른 쓰레드에서 상태값이 있는 같은 필드(question; answers;)를 접근 할 수 있음.
