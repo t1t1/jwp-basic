@@ -4,7 +4,7 @@
 * ContextLoaderListener.contextInitialized() 호출
 * DispatcherServlet 로딩 (@WebServlet(name = "dispatcher", urlPatterns = {"", "/"}, loadOnStartup = 1))
 * DispatcherServlet.init() 호출
-* DispatcherServletservice() 대기
+* DispatcherServlet.service() 대기
 * ContextLoaderListener.contextDestroyed() 호출 
 
 ---
@@ -33,7 +33,13 @@ ContextLoaderListener.java
 ```
 
 #### 2. Tomcat 서버를 시작한 후 http://localhost:8080으로 접근시 호출 순서 및 흐름을 설명하라.
-* 
+
+* ResourceFilter.doFilter() 호출
+* DispatcherServlet.service() 호출
+* RequestMapping 에서 컨트롤러 탐색 // mappings.put("/", new HomeController());
+* JspView 모델 & 뷰 할당
+* index.jsp 로 포워드
 
 #### 7. next.web.qna package의 ShowController는 멀티 쓰레드 상황에서 문제가 발생하는 이유에 대해 설명하라.
+
 * 
