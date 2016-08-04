@@ -3,6 +3,7 @@ package core.di.factory;
 import static org.junit.Assert.assertNotNull;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.util.Set;
 
 import org.junit.Before;
@@ -12,6 +13,7 @@ import org.reflections.Reflections;
 import com.google.common.collect.Sets;
 
 import core.annotation.Controller;
+import core.annotation.Inject;
 import core.annotation.Repository;
 import core.annotation.Service;
 import core.di.factory.example.MyQnaService;
@@ -26,6 +28,16 @@ public class BeanFactoryTest {
 	public void setup() {
 		reflections = new Reflections("core.di.factory.example");
 		Set<Class<?>> preInstanticateClazz = getTypesAnnotatedWith(Controller.class, Service.class, Repository.class);
+		
+		//
+		for (Class<?> clazz : preInstanticateClazz) {
+			Field[] fileds = clazz.getFields();
+			for (Field field : fileds) {
+				field.getAnnotation(Inject.class);
+			}
+		}
+		//
+		
 		beanFactory = new BeanFactory(preInstanticateClazz);
 		beanFactory.initialize();
 	}
