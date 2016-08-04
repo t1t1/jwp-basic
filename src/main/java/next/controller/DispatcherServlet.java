@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-//@WebServlet(name = "dispatcher", urlPatterns = {"/"}, loadOnStartup = 1)
+// "", "/" 의 차이?
 @WebServlet(name = "dispatcher", urlPatterns = {"", "/"}, loadOnStartup = 1)
 public class DispatcherServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -17,18 +17,17 @@ public class DispatcherServlet extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+//		super.service(req, resp);
 		
 		try {
 			
 			System.out.println(req.getRequestURI());
-//			RequestMapping requestMapping = new RequestMapping();
+			RequestMapping requestMapping = new RequestMapping();
 //			RequestMapping.getController(req.getRequestURI())
 //			String url = requestMapping.getController(req.getRequestURI())
-//			String url = requestMapping.getController(req.getRequestURI())
-//							.execute(req, resp);
+			String url = requestMapping.getController(req.getRequestURI())
+							.execute(req, resp);
 			
-			String url = RequestMapping.getInstance().getController(req.getRequestURI())
-														.execute(req, resp);
 			if (url.startsWith("redirect:")) {
 				resp.sendRedirect(url.substring("redirect:".length()));
 				return;

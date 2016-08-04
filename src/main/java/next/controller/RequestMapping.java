@@ -5,16 +5,7 @@ import java.util.Map;
 
 public class RequestMapping {
 	
-	private static Map<String, Controller> map;
-	
-	private static RequestMapping instance;
-	
-	public static RequestMapping getInstance() {
-		if (instance == null) {
-			instance = new RequestMapping();
-		}
-		return instance;
-	}
+	public static Map<String, Controller> map; 
 	
 	public RequestMapping() {
 		map = new HashMap<String, Controller>();
@@ -22,11 +13,10 @@ public class RequestMapping {
 		map.put("", new HomeController());
 		map.put("/", new HomeController());
 		
-		map.put("/users/form", new CreateUserController());
 		map.put("/users/create", new CreateUserController());
 		
-		map.put("/users/loginForm", new LoginController());
 		map.put("/users/login", new LoginController());
+		map.put("/users/loginForm", new LoginController());
 		
 		map.put("/users/logout", new LogoutController());
 		
@@ -34,8 +24,10 @@ public class RequestMapping {
 		
 		map.put("/users/profile", new ProfileController());
 		
-		map.put("/users/updateForm", new UpdateUserController());
+		map.put("/users/form", new CreateUserController());
+		
 		map.put("/users/update", new UpdateUserController());
+		map.put("/users/updateForm", new UpdateUserController());
 	}
 	
 	public static Controller getController(String url) {
