@@ -4,11 +4,14 @@ import static org.hamcrest. CoreMatchers.*;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import next.CannotDeleteException;
 import next.dao.AnswerDao;
 import next.dao.QuestionDao;
+import next.model.Answer;
 import next.model.Question;
 import next.model.User;
 
@@ -53,6 +56,20 @@ public class QnaServiceTest {
 		Question question = new Question(0001L, "userId", "title", "contents", new Date(), 1);
 		User user = new User("userId", "password", "name", "email");
 		when(answerDao.findAllByQuestionId(anyLong())).thenReturn(null);
+		questionDao.delete(question.getQuestionId());
+		assertNull(questionDao.findById(question.getQuestionId()));
+	}
+	
+	@Test
+	public void test_answersExistNotYours() throws Exception {
+		Question question = new Question(0001L, "userId", "title", "contents", new Date(), 1);
+		User user = new User("userId", "password", "name", "email");
+		List<Answer> answers = new ArrayList<Answer>();
+		answers.add(new Answer("writer", "contents", anyLong()));
+		when(answerDao.findAllByQuestionId(anyLong())).thenReturn(answers);
+		
+		
+		
 		questionDao.delete(question.getQuestionId());
 		assertNull(questionDao.findById(question.getQuestionId()));
 	}
