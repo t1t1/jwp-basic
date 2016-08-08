@@ -35,5 +35,15 @@ public class QnaServiceTest {
 		when(questionDao.findById(question.getQuestionId())).thenReturn(null);
 		qnaService.deleteQuestion(question.getQuestionId(), user);
 	}
+	
+	@Test(expected=CannotDeleteException.class)
+	public void test_youAreNotWriter() throws Exception {
+		Question question = new Question(0001L, "writer", "title", "contents", new Date(), 1);
+		User user = new User("userId", "password", "name", "email");
+		when(question.isSameUser(user)).thenReturn(false); // fail
+		qnaService.deleteQuestion(question.getQuestionId(), user);
+	}
+	
+	
 
 }
